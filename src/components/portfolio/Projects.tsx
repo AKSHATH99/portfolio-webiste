@@ -120,7 +120,7 @@ export function Projects() {
     : projects.filter((p) => p.category.toLowerCase().includes(filter.toLowerCase().replace(/[^\w]/g, "")) || p.category.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32">
+    <section data-reveal id="projects" className="relative py-24 sm:py-32">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
