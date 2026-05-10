@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
+import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
-  { href: "#work", label: "Work" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
   { href: "#stack", label: "Stack" },
@@ -23,12 +23,15 @@ export function Nav() {
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
-          className="hidden sm:inline-flex items-center text-sm font-medium px-4 h-9 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
-        >
-          Hire me
-        </a>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <a
+            href="#contact"
+            className="hidden sm:inline-flex items-center text-sm font-medium px-4 h-9 rounded-md bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+          >
+            Hire me
+          </a>
+        </div>
       </div>
     </header>
   );
