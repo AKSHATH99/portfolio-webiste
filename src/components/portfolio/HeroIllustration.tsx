@@ -1,76 +1,92 @@
 /**
- * Decorative yellow + white abstract illustration for the hero.
- * Pure inline SVG so it scales crisply, themes via currentColor and tokens.
+ * Subtle, low-contrast illustration of a developer at a desk.
+ * Uses muted tones so it supports the headline without competing with it.
  */
 export function HeroIllustration() {
   return (
-    <div className="relative w-full max-w-[460px] aspect-square mx-auto">
-      {/* Glow */}
+    <div className="relative w-full max-w-[440px] aspect-square mx-auto opacity-90">
+      {/* Soft ambient glow, very low opacity so it doesn't pull focus */}
       <div
-        className="absolute inset-0 rounded-full blur-3xl opacity-40"
+        className="absolute inset-10 rounded-full blur-3xl opacity-20"
         style={{ background: "var(--gradient-primary)" }}
         aria-hidden
       />
 
       <svg
-        viewBox="0 0 460 460"
-        className="relative w-full h-full anim-float"
+        viewBox="0 0 440 440"
+        className="relative w-full h-full"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="Abstract code window illustration"
+        aria-label="Developer working at a laptop"
       >
         <defs>
-          <linearGradient id="gPrim" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="oklch(0.85 0.18 65)" />
-            <stop offset="100%" stopColor="oklch(0.78 0.16 60)" />
-          </linearGradient>
-          <linearGradient id="gSoft" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="oklch(1 0 0 / 0.10)" />
+          <linearGradient id="screenGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="oklch(1 0 0 / 0.08)" />
             <stop offset="100%" stopColor="oklch(1 0 0 / 0.02)" />
+          </linearGradient>
+          <linearGradient id="amberSoft" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="oklch(0.78 0.16 60 / 0.55)" />
+            <stop offset="100%" stopColor="oklch(0.78 0.16 60 / 0.25)" />
           </linearGradient>
         </defs>
 
-        {/* Orbit rings */}
-        <circle cx="230" cy="230" r="200" stroke="oklch(1 0 0 / 0.08)" strokeWidth="1" />
-        <circle cx="230" cy="230" r="150" stroke="oklch(1 0 0 / 0.10)" strokeWidth="1" strokeDasharray="3 6" />
+        {/* Faint orbit ring */}
+        <circle cx="220" cy="220" r="180" stroke="oklch(1 0 0 / 0.06)" strokeWidth="1" />
+        <circle cx="220" cy="220" r="130" stroke="oklch(1 0 0 / 0.05)" strokeWidth="1" strokeDasharray="2 6" />
 
-        {/* Big amber blob */}
-        <circle cx="340" cy="120" r="46" fill="url(#gPrim)" />
-        <circle cx="100" cy="340" r="22" fill="oklch(0.85 0.18 65)" opacity="0.6" />
-        <circle cx="380" cy="320" r="10" fill="oklch(0.85 0.18 65)" />
+        {/* Desk line */}
+        <line x1="60" y1="340" x2="380" y2="340" stroke="oklch(1 0 0 / 0.18)" strokeWidth="1.5" strokeLinecap="round" />
 
-        {/* Browser-like window */}
-        <g className="anim-float-slow">
-          <rect x="80" y="130" width="280" height="200" rx="18" fill="url(#gSoft)" stroke="oklch(1 0 0 / 0.18)" />
-          <circle cx="100" cy="150" r="4" fill="oklch(0.85 0.18 65)" />
-          <circle cx="114" cy="150" r="4" fill="oklch(0.78 0.13 195)" />
-          <circle cx="128" cy="150" r="4" fill="oklch(1 0 0 / 0.4)" />
-
-          {/* Code lines */}
-          <rect x="100" y="178" width="120" height="8" rx="4" fill="oklch(0.85 0.18 65)" />
-          <rect x="100" y="196" width="190" height="6" rx="3" fill="oklch(1 0 0 / 0.65)" />
-          <rect x="100" y="212" width="150" height="6" rx="3" fill="oklch(1 0 0 / 0.35)" />
-          <rect x="120" y="228" width="170" height="6" rx="3" fill="oklch(1 0 0 / 0.55)" />
-          <rect x="120" y="244" width="100" height="6" rx="3" fill="oklch(0.85 0.18 65)" />
-          <rect x="100" y="260" width="80" height="6" rx="3" fill="oklch(1 0 0 / 0.35)" />
-
-          {/* Run button */}
-          <rect x="260" y="280" width="80" height="28" rx="14" fill="oklch(0.85 0.18 65)" />
-          <path d="M283 288 L283 300 L295 294 Z" fill="oklch(0.18 0.03 60)" />
+        {/* Plant on desk — tiny accent */}
+        <g transform="translate(78 300)" opacity="0.7">
+          <rect x="0" y="22" width="20" height="16" rx="2" fill="oklch(1 0 0 / 0.12)" stroke="oklch(1 0 0 / 0.25)" />
+          <path d="M10 22 C 6 14, 2 10, 4 2" stroke="oklch(0.78 0.16 60 / 0.6)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <path d="M10 22 C 14 14, 18 10, 16 2" stroke="oklch(0.78 0.16 60 / 0.6)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <path d="M10 22 L 10 6" stroke="oklch(0.78 0.16 60 / 0.7)" strokeWidth="1.5" strokeLinecap="round" />
         </g>
 
-        {/* Floating chip */}
-        <g transform="translate(310 250)">
-          <rect width="92" height="40" rx="12" fill="oklch(1 0 0 / 0.92)" />
-          <circle cx="18" cy="20" r="6" fill="oklch(0.85 0.18 65)" />
-          <rect x="32" y="12" width="46" height="6" rx="3" fill="oklch(0.18 0.03 60)" />
-          <rect x="32" y="22" width="32" height="5" rx="2.5" fill="oklch(0.18 0.03 60 / 0.5)" />
+        {/* Coffee cup */}
+        <g transform="translate(330 308)" opacity="0.7">
+          <path d="M0 0 H 22 V 22 Q 22 30 14 30 H 8 Q 0 30 0 22 Z" fill="oklch(1 0 0 / 0.10)" stroke="oklch(1 0 0 / 0.28)" />
+          <path d="M22 6 Q 30 6 30 14 Q 30 22 22 22" stroke="oklch(1 0 0 / 0.28)" fill="none" />
+          <path d="M6 -6 Q 8 -10 6 -14" stroke="oklch(0.78 0.16 60 / 0.6)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+          <path d="M14 -6 Q 16 -10 14 -14" stroke="oklch(0.78 0.16 60 / 0.6)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
         </g>
 
-        {/* Spark */}
-        <g transform="translate(60 90)" opacity="0.9">
-          <path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="oklch(0.85 0.18 65)" />
+        {/* Person — simple silhouette, back view at laptop */}
+        <g transform="translate(170 170)">
+          {/* Head */}
+          <circle cx="50" cy="20" r="22" fill="oklch(1 0 0 / 0.18)" stroke="oklch(1 0 0 / 0.3)" />
+          {/* Headphones hint */}
+          <path d="M28 22 Q 28 0 50 0 Q 72 0 72 22" stroke="oklch(0.78 0.16 60 / 0.7)" strokeWidth="2" fill="none" />
+          <rect x="24" y="18" width="8" height="12" rx="2" fill="oklch(0.78 0.16 60 / 0.7)" />
+          <rect x="68" y="18" width="8" height="12" rx="2" fill="oklch(0.78 0.16 60 / 0.7)" />
+          {/* Shoulders / hoodie */}
+          <path
+            d="M 0 130 Q 0 70 50 60 Q 100 70 100 130 Z"
+            fill="oklch(1 0 0 / 0.08)"
+            stroke="oklch(1 0 0 / 0.22)"
+          />
+        </g>
+
+        {/* Laptop in front of person */}
+        <g transform="translate(140 280)">
+          {/* Base */}
+          <path d="M-6 50 H 166 L 156 60 H 4 Z" fill="oklch(1 0 0 / 0.14)" stroke="oklch(1 0 0 / 0.3)" />
+          {/* Screen */}
+          <rect x="6" y="-6" width="148" height="58" rx="4" fill="url(#screenGrad)" stroke="oklch(1 0 0 / 0.3)" />
+          {/* Code lines on screen */}
+          <rect x="14" y="6" width="40" height="4" rx="2" fill="url(#amberSoft)" />
+          <rect x="14" y="16" width="80" height="3" rx="1.5" fill="oklch(1 0 0 / 0.35)" />
+          <rect x="22" y="24" width="60" height="3" rx="1.5" fill="oklch(1 0 0 / 0.25)" />
+          <rect x="22" y="32" width="90" height="3" rx="1.5" fill="oklch(1 0 0 / 0.3)" />
+          <rect x="14" y="40" width="50" height="3" rx="1.5" fill="url(#amberSoft)" />
+        </g>
+
+        {/* Tiny floating spark, single accent */}
+        <g transform="translate(330 110)" opacity="0.6">
+          <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z" fill="oklch(0.78 0.16 60 / 0.8)" />
         </g>
       </svg>
     </div>
