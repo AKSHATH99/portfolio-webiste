@@ -17,7 +17,7 @@ const jobs = [
 
 export function Experience() {
   return (
-    <section id="experience" className="relative py-24 sm:py-32 bg-surface/40">
+    <section data-reveal id="experience" className="relative py-24 sm:py-32 bg-surface/40">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-2xl mb-14">
           <p className="text-sm font-mono text-accent uppercase tracking-widest mb-3">Experience</p>
