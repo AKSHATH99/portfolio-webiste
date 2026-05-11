@@ -1,23 +1,25 @@
-import { ExternalLink, Github } from "lucide-react";
-import { useState } from "react";
+import { ChevronDown, ExternalLink, Github } from "lucide-react";
+import { useMemo, useState } from "react";
 
 type Project = {
   title: string;
   category: string;
+  group: "fullstack" | "landing" | "map";
   summary: string;
   problem: string;
   audience: string;
   stack: string[];
   live: string;
   github?: string;
-  accent: string; // gradient classes
-  image?: string; // image filename from /images folder
+  accent: string;
+  image?: string;
 };
 
 const projects: Project[] = [
   {
     title: "Web3 Document Verification",
     category: "Full‑Stack · Web3",
+    group: "fullstack",
     summary: "Verify if a document is authentic and untampered — backed by the blockchain.",
     problem: "Forged certificates and altered records are hard to catch. This platform lets anyone verify a document in seconds.",
     audience: "Universities, certification bodies, HR teams, government records.",
@@ -30,6 +32,7 @@ const projects: Project[] = [
   {
     title: "Live Coding Platform",
     category: "Real‑Time · Collaboration",
+    group: "fullstack",
     summary: "A browser workspace where multiple people code, run and review code together — live.",
     problem: "Remote pair‑programming and coding interviews are clunky. This makes them feel local.",
     audience: "Coding interviews, teaching, pair programming, online bootcamps.",
@@ -41,6 +44,7 @@ const projects: Project[] = [
   {
     title: "Live MCQ Platform",
     category: "Real‑Time · Education",
+    group: "fullstack",
     summary: "Run live quizzes with instant results and a real‑time leaderboard.",
     problem: "Teachers and trainers want quick assessments without paper or delays. Hosts get instant insight; learners get instant feedback.",
     audience: "Teachers, coaching centers, hiring tests, workshops, events.",
@@ -53,6 +57,7 @@ const projects: Project[] = [
   {
     title: "GUIDO — Mentor Discovery",
     category: "Full‑Stack · Education",
+    group: "fullstack",
     summary: "Helps students discover mentors that match their career interests.",
     problem: "Finding the right mentor is hard. GUIDO matches students with mentors by domain and goals.",
     audience: "Student communities, education platforms, mentorship programs.",
@@ -64,6 +69,7 @@ const projects: Project[] = [
   {
     title: "Pharm‑Locator",
     category: "Map · Location",
+    group: "map",
     summary: "Find nearby medical stores and get the best route to reach them.",
     problem: "Finding an open pharmacy quickly can be life‑critical. Pharm‑Locator surfaces options and routes them in seconds.",
     audience: "Healthcare services, local discovery, pharmacy chains, emergency apps.",
@@ -75,6 +81,7 @@ const projects: Project[] = [
   {
     title: "Indian‑Italian Restaurant",
     category: "Landing Page",
+    group: "landing",
     summary: "A flavorful brand site with menu, gallery, specials and table booking.",
     problem: "Restaurants need a presence that looks as good as the food. This delivers brand, menu and bookings in one flow.",
     audience: "Restaurants, cafes, food brands, local businesses.",
@@ -86,6 +93,7 @@ const projects: Project[] = [
   {
     title: "Azure Escapes — Travel",
     category: "Landing Page",
+    group: "landing",
     summary: "A polished travel agency landing page showcasing destinations and packages.",
     problem: "Travel brands need an experience that sells the dream. This page does it with motion, imagery and clear packages.",
     audience: "Travel agencies, tour operators, hospitality brands.",
@@ -97,6 +105,7 @@ const projects: Project[] = [
   {
     title: "Price‑Wise AI",
     category: "Landing Page",
+    group: "landing",
     summary: "Landing page for an AI shopping assistant that finds better deals for you.",
     problem: "Shoppers want value, not just lower prices. This page explains the assistant and converts curious visitors.",
     audience: "AI products, SaaS launches, shopping tools.",
@@ -108,6 +117,7 @@ const projects: Project[] = [
   {
     title: "Estate Vault — Crypto",
     category: "Web3 · Product Page",
+    group: "landing",
     summary: "A secure vault concept for seed phrases, NFT metadata, wills and time‑locked transfers.",
     problem: "Crypto custody is risky and hard to explain. This page makes a complex security product feel safe and simple.",
     audience: "Crypto products, Web3 startups, security brands.",
@@ -118,28 +128,69 @@ const projects: Project[] = [
   },
 ];
 
-const categories = ["All", "Landing Page", "Full‑Stack"];
+type GroupKey = "fullstack" | "landing" | "map";
+const groupMeta: Record<GroupKey, { label: string; blurb: string }> = {
+  fullstack: {
+    label: "Full‑Stack Web Apps",
+    blurb: "End‑to‑end products with real users, real data and real‑time features.",
+  },
+  landing: {
+    label: "Landing Pages",
+    blurb: "High‑polish marketing pages built to convert visitors into customers.",
+  },
+  map: {
+    label: "Map / Location",
+    blurb: "Location‑aware tools that help people find what's nearby, fast.",
+  },
+};
+
+const filters = ["All", "Full‑Stack", "Landing Page", "Map"] as const;
+type Filter = typeof filters[number];
+
+function matchesFilter(p: Project, f: Filter) {
+  if (f === "All") return true;
+  if (f === "Full‑Stack") return p.group === "fullstack";
+  if (f === "Landing Page") return p.group === "landing";
+  if (f === "Map") return p.group === "map";
+  return true;
+}
 
 export function Projects() {
-  const [filter, setFilter] = useState("All");
-  const filtered = filter === "All"
-    ? projects
-    : projects.filter((p) => p.category.toLowerCase().includes(filter.toLowerCase().replace(/[^\w]/g, "")) || p.category.toLowerCase().includes(filter.toLowerCase()));
+  const [filter, setFilter] = useState<Filter>("All");
+
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { All: projects.length };
+    filters.forEach((f) => {
+      if (f !== "All") c[f] = projects.filter((p) => matchesFilter(p, f)).length;
+    });
+    return c;
+  }, []);
+
+  const filtered = projects.filter((p) => matchesFilter(p, filter));
+
+  const groupedOrder: GroupKey[] = ["fullstack", "landing", "map"];
+  const grouped = groupedOrder
+    .map((g) => ({ key: g, items: filtered.filter((p) => p.group === g) }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <section data-reveal id="projects" className="relative py-24 sm:py-32">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <div className="max-w-2xl">
             <p className="text-sm font-mono text-accent uppercase tracking-widest mb-3">Selected work</p>
             <h2 className="text-4xl sm:text-5xl font-semibold">Projects as proof.</h2>
             <p className="mt-4 text-muted-foreground text-lg">
-             Selected projects I worked on recently
+              Grouped so you can jump straight to what you care about.
             </p>
           </div>
+        </div>
+
+        {/* Sticky filter bar */}
+        <div className="sticky top-16 z-20 -mx-6 px-6 py-3 mb-8 backdrop-blur-md bg-background/70 border-y border-border/50">
           <div className="flex flex-wrap gap-2">
-            {categories.map((c) => (
+            {filters.map((c) => (
               <button
                 key={c}
                 onClick={() => setFilter(c)}
@@ -149,35 +200,65 @@ export function Projects() {
                     : "border-border text-muted-foreground hover:text-foreground hover:bg-surface"
                 }`}
               >
-                {c}
+                {c} <span className="opacity-60">· {counts[c]}</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filtered.map((p) => (
-            <ProjectCard key={p.title} project={p} />
-          ))}
-        </div>
+        {filter === "All" ? (
+          <div className="space-y-14">
+            {grouped.map((g, idx) => (
+              <div key={g.key}>
+                <div className="flex items-end justify-between gap-4 mb-5">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-semibold">{groupMeta[g.key].label}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{groupMeta[g.key].blurb}</p>
+                  </div>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-1 rounded-md whitespace-nowrap">
+                    {g.items.length} {g.items.length === 1 ? "project" : "projects"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {g.items.map((p) => (
+                    <ProjectCard key={p.title} project={p} />
+                  ))}
+                </div>
+                {idx < grouped.length - 1 && (
+                  <div className="mt-14 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {filtered.map((p) => (
+              <ProjectCard key={p.title} project={p} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
 function ProjectCard({ project: p }: { project: Project }) {
+  const [open, setOpen] = useState(false);
+  const visibleStack = p.stack.slice(0, 3);
+  const overflow = p.stack.length - visibleStack.length;
+
   return (
     <article className="group surface-card shimmer-border rounded-2xl overflow-hidden flex flex-col hover:translate-y-[-3px] transition-all">
-      {/* Visual mockup */}
-      <a href={p.live} target="_blank" rel="noreferrer" className="block relative aspect-[16/10] overflow-hidden border-b border-border">
+      <a href={p.live} target="_blank" rel="noreferrer" className="block relative aspect-[16/9] overflow-hidden border-b border-border">
         {p.image ? (
           <>
-            <img 
-              src={`/images/${p.image}`} 
+            <img
+              src={`/images/${p.image}`}
               alt={p.title}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           </>
         ) : (
           <>
@@ -185,64 +266,80 @@ function ProjectCard({ project: p }: { project: Project }) {
             <div className="absolute inset-0 bg-grid opacity-30" />
           </>
         )}
-        {/* Browser chrome mockup */}
-        <div className="absolute top-3 left-3 right-3 h-8 bg-background/50 backdrop-blur-sm border border-border rounded-md flex items-center gap-1.5 px-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-destructive/70" />
-          <span className="w-2.5 h-2.5 rounded-full bg-primary/70" />
-          <span className="w-2.5 h-2.5 rounded-full bg-accent/70" />
-          <span className="ml-3 text-[10px] text-muted-foreground font-mono truncate">
+        <div className="absolute top-3 left-3 right-3 h-7 bg-background/50 backdrop-blur-sm border border-border rounded-md flex items-center gap-1.5 px-2">
+          <span className="w-2 h-2 rounded-full bg-destructive/70" />
+          <span className="w-2 h-2 rounded-full bg-primary/70" />
+          <span className="w-2 h-2 rounded-full bg-accent/70" />
+          <span className="ml-2 text-[10px] text-muted-foreground font-mono truncate">
             {p.live.replace(/^https?:\/\//, "")}
           </span>
         </div>
       </a>
 
-      <div className="p-6 flex-1 flex flex-col">
-        <div className="flex items-start justify-between gap-4 mb-2">
-          <h3 className="text-xl font-semibold">{p.title}</h3>
+      <div className="p-5 flex-1 flex flex-col">
+        <div className="flex items-start justify-between gap-3 mb-1.5">
+          <h3 className="text-lg font-semibold leading-snug">{p.title}</h3>
           <span className="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-1 rounded-md whitespace-nowrap">
             {p.category}
           </span>
         </div>
-        <p className="text-foreground/90">{p.summary}</p>
+        <p className="text-sm text-foreground/85">{p.summary}</p>
 
-        <dl className="mt-4 space-y-2 text-sm">
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground font-mono">What it solves</dt>
-            <dd className="mt-1 text-muted-foreground">{p.problem}</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground font-mono">Useful for</dt>
-            <dd className="mt-1 text-muted-foreground">{p.audience}</dd>
-          </div>
-        </dl>
-
-        <div className="mt-5 flex flex-wrap gap-1.5">
-          {p.stack.map((t) => (
-            <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-surface-elevated border border-border text-foreground/80 font-mono">
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {visibleStack.map((t) => (
+            <span key={t} className="text-[11px] px-2 py-0.5 rounded-md bg-surface-elevated border border-border text-foreground/80 font-mono">
               {t}
             </span>
           ))}
+          {overflow > 0 && (
+            <span className="text-[11px] px-2 py-0.5 rounded-md bg-surface-elevated border border-border text-muted-foreground font-mono">
+              +{overflow}
+            </span>
+          )}
         </div>
 
-        <div className="mt-6 flex items-center gap-3 pt-4 border-t border-border">
-          <a
-            href={p.live}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-glow transition-colors"
-          >
-            Live demo <ExternalLink className="size-3.5" />
-          </a>
-          {p.github && (
+        {open && (
+          <dl className="mt-4 space-y-2 text-sm border-t border-border pt-4">
+            <div>
+              <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono">What it solves</dt>
+              <dd className="mt-1 text-sm text-muted-foreground">{p.problem}</dd>
+            </div>
+            <div>
+              <dt className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono">Useful for</dt>
+              <dd className="mt-1 text-sm text-muted-foreground">{p.audience}</dd>
+            </div>
+          </dl>
+        )}
+
+        <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t border-border">
+          <div className="flex items-center gap-3">
             <a
-              href={p.github}
+              href={p.live}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-glow transition-colors"
             >
-              <Github className="size-3.5" /> Source
+              Live demo <ExternalLink className="size-3.5" />
             </a>
-          )}
+            {p.github && (
+              <a
+                href={p.github}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Github className="size-3.5" /> Source
+              </a>
+            )}
+          </div>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            aria-expanded={open}
+          >
+            {open ? "Hide" : "Details"}
+            <ChevronDown className={`size-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+          </button>
         </div>
       </div>
     </article>
