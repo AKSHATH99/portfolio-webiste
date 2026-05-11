@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 type Project = {
   title: string;
   category: string;
-  group: "fullstack" | "landing" | "map";
+  group: "fullstack" | "landing" | "webapps";
   summary: string;
   problem: string;
   audience: string;
@@ -19,7 +19,7 @@ const projects: Project[] = [
   {
     title: "Web3 Document Verification",
     category: "Full‑Stack · Web3",
-    group: "fullstack",
+    group: "webapps",
     summary: "Verify if a document is authentic and untampered — backed by the blockchain.",
     problem: "Forged certificates and altered records are hard to catch. This platform lets anyone verify a document in seconds.",
     audience: "Universities, certification bodies, HR teams, government records.",
@@ -28,18 +28,6 @@ const projects: Project[] = [
     github: "https://github.com/AKSHATH99/DocVerify",
     accent: "from-purple-500/30 via-fuchsia-500/20 to-cyan-400/30",
     image: "doc-verify.png",
-  },
-  {
-    title: "Live Coding Platform",
-    category: "Real‑Time · Collaboration",
-    group: "fullstack",
-    summary: "A browser workspace where multiple people code, run and review code together — live.",
-    problem: "Remote pair‑programming and coding interviews are clunky. This makes them feel local.",
-    audience: "Coding interviews, teaching, pair programming, online bootcamps.",
-    stack: ["React", "Monaco", "WebRTC", "Socket.IO", "Judge0", "Node.js"],
-    live: "https://live-coding-video-chat-platform.onrender.com/",
-    github: "https://github.com/AKSHATH99/live-coding-video-chat-platform",
-    accent: "from-cyan-500/30 via-blue-500/20 to-indigo-500/30",
   },
   {
     title: "Live MCQ Platform",
@@ -55,6 +43,18 @@ const projects: Project[] = [
     image: "mcq-platform.png",
   },
   {
+    title: "Live Coding Platform",
+    category: "Real‑Time · Collaboration",
+    group: "fullstack",
+    summary: "A browser workspace where multiple people code, run and review code together — live.",
+    problem: "Remote pair‑programming and coding interviews are clunky. This makes them feel local.",
+    audience: "Coding interviews, teaching, pair programming, online bootcamps.",
+    stack: ["React", "Monaco", "WebRTC", "Socket.IO", "Judge0", "Node.js"],
+    live: "https://live-coding-video-chat-platform.onrender.com/",
+    github: "https://github.com/AKSHATH99/live-coding-video-chat-platform",
+    accent: "from-cyan-500/30 via-blue-500/20 to-indigo-500/30",
+  },
+  {
     title: "GUIDO — Mentor Discovery",
     category: "Full‑Stack · Education",
     group: "fullstack",
@@ -68,8 +68,8 @@ const projects: Project[] = [
   },
   {
     title: "Pharm‑Locator",
-    category: "Map · Location",
-    group: "map",
+    category: "Web Application · Location",
+    group: "webapps",
     summary: "Find nearby medical stores and get the best route to reach them.",
     problem: "Finding an open pharmacy quickly can be life‑critical. Pharm‑Locator surfaces options and routes them in seconds.",
     audience: "Healthcare services, local discovery, pharmacy chains, emergency apps.",
@@ -128,7 +128,7 @@ const projects: Project[] = [
   },
 ];
 
-type GroupKey = "fullstack" | "landing" | "map";
+type GroupKey = "fullstack" | "landing" | "webapps";
 const groupMeta: Record<GroupKey, { label: string; blurb: string }> = {
   fullstack: {
     label: "Full‑Stack Web Apps",
@@ -138,20 +138,20 @@ const groupMeta: Record<GroupKey, { label: string; blurb: string }> = {
     label: "Landing Pages",
     blurb: "High‑polish marketing pages built to convert visitors into customers.",
   },
-  map: {
-    label: "Map / Location",
-    blurb: "Location‑aware tools that help people find what's nearby, fast.",
+  webapps: {
+    label: "Web Applications & Tools",
+    blurb: "Specialized frontend applications that solve specific domain problems.",
   },
 };
 
-const filters = ["All", "Full‑Stack", "Landing Page", "Map"] as const;
+const filters = ["All", "Full‑Stack", "Landing Page", "Web Apps"] as const;
 type Filter = typeof filters[number];
 
 function matchesFilter(p: Project, f: Filter) {
   if (f === "All") return true;
   if (f === "Full‑Stack") return p.group === "fullstack";
   if (f === "Landing Page") return p.group === "landing";
-  if (f === "Map") return p.group === "map";
+  if (f === "Web Apps") return p.group === "webapps";
   return true;
 }
 
@@ -168,7 +168,7 @@ export function Projects() {
 
   const filtered = projects.filter((p) => matchesFilter(p, filter));
 
-  const groupedOrder: GroupKey[] = ["fullstack", "landing", "map"];
+  const groupedOrder: GroupKey[] = ["fullstack", "landing", "webapps"];
   const grouped = groupedOrder
     .map((g) => ({ key: g, items: filtered.filter((p) => p.group === g) }))
     .filter((g) => g.items.length > 0);
