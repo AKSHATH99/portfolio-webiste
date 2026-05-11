@@ -13,7 +13,7 @@ export function Nav() {
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-display font-semibold">
-          <span className="inline-block w-7 h-7 rounded-md bg-gradient-to-br from-primary to-accent grid place-items-center text-primary-foreground text-sm">A</span>
+          <span className="inline-flex w-8 h-7 rounded-md bg-primary items-center justify-center text-primary-foreground text-[11px] font-mono font-bold">{"</>"}</span>
           <span>Akshath<span className="text-muted-foreground">.dev</span></span>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
