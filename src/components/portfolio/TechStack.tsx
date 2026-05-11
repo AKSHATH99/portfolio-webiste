@@ -24,7 +24,7 @@ export function TechStack() {
           <p className="text-sm font-mono text-accent uppercase tracking-widest mb-3">Tech stack</p>
           <h2 className="text-4xl sm:text-5xl font-semibold">Tools I work with.</h2>
           <p className="mt-4 text-muted-foreground text-lg">
-            Grouped by what they do — frontend, backend and the infrastructure that ties it together.
+            The tools I reach for daily to design, build and ship full‑stack products.
           </p>
         </div>
 
