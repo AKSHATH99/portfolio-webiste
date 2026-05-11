@@ -28,8 +28,7 @@ export function Hero() {
 
             <p data-reveal-child className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
               Full Stack Developer (SDE&#8209;1) turning ideas into practical digital products —
-              business sites, real‑time platforms, dashboards and MVPs. Whether you're a recruiter
-              or a founder with a rough idea, I can help you ship.
+              business sites, dashboards, landing pages and full‑stack web apps built to ship.
             </p>
 
             <div data-reveal-child className="mt-8 flex flex-wrap items-center gap-3">
