@@ -27,8 +27,7 @@ export function Hero() {
             </h1>
 
             <p data-reveal-child className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              I design and ship products end‑to‑end — from the first sketch to a polished interface,
-              the API behind it, and the deploy that puts it in front of real users.
+              I love to design and ship  end‑to‑end products and  enjoy  building websites and landing pages for real business . 
             </p>
 
             <div data-reveal-child className="mt-8 flex flex-wrap items-center gap-3">
