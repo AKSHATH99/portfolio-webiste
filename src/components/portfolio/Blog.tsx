@@ -16,8 +16,12 @@ export function Blog() {
           className="group block surface-card shimmer-border rounded-2xl p-8 hover:translate-y-[-2px] transition-all max-w-3xl"
         >
           <div className="flex items-start gap-5">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-accent grid place-items-center text-primary-foreground">
-              <NotebookPen className="size-5" />
+            <div className="w-10 h-10 rounded-md overflow-hidden border-2 border-border bg-background shadow-sm">
+              <img 
+                src="/images/blog-headers/images.jpeg" 
+                alt="Blog header"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-1">
               <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">DevOps · React</div>

@@ -11,6 +11,7 @@ type Project = {
   live: string;
   github?: string;
   accent: string; // gradient classes
+  image?: string; // image filename from /images folder
 };
 
 const projects: Project[] = [
@@ -24,6 +25,7 @@ const projects: Project[] = [
     live: "https://doc-verify-alpha.vercel.app/",
     github: "https://github.com/AKSHATH99/DocVerify",
     accent: "from-purple-500/30 via-fuchsia-500/20 to-cyan-400/30",
+    image: "doc-verify.png",
   },
   {
     title: "Live Coding Platform",
@@ -46,6 +48,7 @@ const projects: Project[] = [
     live: "https://socketio-live-mcq.onrender.com/",
     github: "https://github.com/AKSHATH99/socketio-live-mcq",
     accent: "from-amber-500/30 via-orange-500/20 to-rose-500/30",
+    image: "mcq-platform.png",
   },
   {
     title: "GUIDO — Mentor Discovery",
@@ -78,6 +81,7 @@ const projects: Project[] = [
     stack: ["React", "Tailwind", "Framer Motion"],
     live: "https://spice-sage-showcase.vercel.app/",
     accent: "from-rose-500/30 via-orange-500/20 to-amber-500/30",
+    image: "restaurant-hero.png",
   },
   {
     title: "Azure Escapes — Travel",
@@ -88,16 +92,18 @@ const projects: Project[] = [
     stack: ["React", "Tailwind", "Framer Motion"],
     live: "https://azure-escapes.vercel.app/",
     accent: "from-sky-500/30 via-cyan-500/20 to-blue-500/30",
+    image: "traevl-website.png",
   },
   {
     title: "Price‑Wise AI",
-    category: "AI Product Page",
+    category: "Landing Page",
     summary: "Landing page for an AI shopping assistant that finds better deals for you.",
     problem: "Shoppers want value, not just lower prices. This page explains the assistant and converts curious visitors.",
     audience: "AI products, SaaS launches, shopping tools.",
     stack: ["React", "Tailwind", "Framer Motion"],
     live: "https://price-wise-theta-ochre.vercel.app/",
     accent: "from-violet-500/30 via-purple-500/20 to-pink-500/30",
+    image: "pricewise-hero.png",
   },
   {
     title: "Estate Vault — Crypto",
@@ -108,10 +114,11 @@ const projects: Project[] = [
     stack: ["React", "Tailwind", "Framer Motion"],
     live: "https://estate-vault-secure.vercel.app/",
     accent: "from-indigo-500/30 via-blue-500/20 to-purple-500/30",
+    image: "crypto-landing.png",
   },
 ];
 
-const categories = ["All", "Full‑Stack", "Real‑Time", "Landing Page", "Map", "Web3", "AI"];
+const categories = ["All", "Landing Page", "Full‑Stack"];
 
 export function Projects() {
   const [filter, setFilter] = useState("All");
@@ -128,7 +135,7 @@ export function Projects() {
             <p className="text-sm font-mono text-accent uppercase tracking-widest mb-3">Selected work</p>
             <h2 className="text-4xl sm:text-5xl font-semibold">Projects as proof.</h2>
             <p className="mt-4 text-muted-foreground text-lg">
-              Each is a real, shipped product — explained in plain English first, then the tech.
+             Selected projects I worked on recently
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -163,27 +170,29 @@ function ProjectCard({ project: p }: { project: Project }) {
     <article className="group surface-card shimmer-border rounded-2xl overflow-hidden flex flex-col hover:translate-y-[-3px] transition-all">
       {/* Visual mockup */}
       <a href={p.live} target="_blank" rel="noreferrer" className="block relative aspect-[16/10] overflow-hidden border-b border-border">
-        <div className={`absolute inset-0 bg-gradient-to-br ${p.accent}`} />
-        <div className="absolute inset-0 bg-grid opacity-30" />
+        {p.image ? (
+          <>
+            <img 
+              src={`/images/${p.image}`} 
+              alt={p.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+          </>
+        ) : (
+          <>
+            <div className={`absolute inset-0 bg-gradient-to-br ${p.accent}`} />
+            <div className="absolute inset-0 bg-grid opacity-30" />
+          </>
+        )}
         {/* Browser chrome mockup */}
-        <div className="absolute inset-4 rounded-lg bg-background/70 backdrop-blur-sm border border-border shadow-2xl flex flex-col overflow-hidden">
-          <div className="h-7 bg-surface-elevated/80 border-b border-border flex items-center gap-1.5 px-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-destructive/70" />
-            <span className="w-2.5 h-2.5 rounded-full bg-primary/70" />
-            <span className="w-2.5 h-2.5 rounded-full bg-accent/70" />
-            <span className="ml-3 text-[10px] text-muted-foreground font-mono truncate">
-              {p.live.replace(/^https?:\/\//, "")}
-            </span>
-          </div>
-          <div className="flex-1 p-5 flex flex-col justify-center">
-            <div className="text-xs font-mono text-accent mb-2">{p.category}</div>
-            <div className="text-xl font-display font-semibold text-foreground leading-tight">{p.title}</div>
-            <div className="mt-3 space-y-1.5">
-              <div className="h-1.5 w-3/4 rounded-full bg-foreground/15" />
-              <div className="h-1.5 w-1/2 rounded-full bg-foreground/10" />
-              <div className="h-1.5 w-2/3 rounded-full bg-foreground/10" />
-            </div>
-          </div>
+        <div className="absolute top-3 left-3 right-3 h-8 bg-background/50 backdrop-blur-sm border border-border rounded-md flex items-center gap-1.5 px-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-destructive/70" />
+          <span className="w-2.5 h-2.5 rounded-full bg-primary/70" />
+          <span className="w-2.5 h-2.5 rounded-full bg-accent/70" />
+          <span className="ml-3 text-[10px] text-muted-foreground font-mono truncate">
+            {p.live.replace(/^https?:\/\//, "")}
+          </span>
         </div>
       </a>
 
