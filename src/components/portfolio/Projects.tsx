@@ -182,7 +182,7 @@ export function Projects() {
             <p className="text-sm font-mono text-accent uppercase tracking-widest mb-3">Selected work</p>
             <h2 className="text-4xl sm:text-5xl font-semibold">Projects as proof.</h2>
             <p className="mt-4 text-muted-foreground text-lg">
-              Grouped so you can jump straight to what you care about.
+              A handful of recent things I've designed, built and shipped.
             </p>
           </div>
         </div>
